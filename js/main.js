@@ -1,8 +1,8 @@
 // JavaScript source code
 var config = {
     type: Phaser.AUTO,
-    width: 64 * 8, //TODO - set up as neccessary
-    height: 64 * 12,
+    width: 960, //TODO - double and then set scale
+    height: 540,
     pixelArt: true,
 
     physics: {
@@ -12,7 +12,9 @@ var config = {
             gravity: {
                 x: 0,
                 y: 0
-            }
+            },
+            debug: true,
+            debugBodyColor: 0xffffff
         }
     },
 
@@ -23,11 +25,11 @@ var config = {
             mapping: "matterCollision"
         }]
     },
-    scene: {    //TODO - change when using scene classes
-        preload: preload,
-        create: create,
-        update: update
-    }
+    scene: [StartScreen]    //TODO - change when using scene classes
+    //    preload: preload,
+    //    create: create,
+    //    update: update
+    //}
 
 }
 
