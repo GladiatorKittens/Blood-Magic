@@ -1,7 +1,7 @@
 // JavaScript source code
 class StartScreen extends Phaser.Scene {
     constructor() {
-        super();
+        super("StartScreen");
         this.id = "StartScreen";
         //Add extra variables here
     }
@@ -10,13 +10,11 @@ class StartScreen extends Phaser.Scene {
     }
     create() {
         this.matter.world.setBounds();
-        var start_hitbox = this.matter.add.rectangle(450, 250, 200, 50);
-        var start_button = this.add.image(450, 250, "placeholder.png");
-        start_button.setInteractive();
-        start_button.on("pointerdown", function () { this.scene.start("Level_1") });//doesn't work due to this context
+        //creates a new instance of the button class, which takes in co-ordinates, image path, the function for on press and the context
+        var start_button = new Button(450, 250, "placeholder.png", function () { this.scene.start("Level_1")}, this);
+        
     }
     update() {
-
     }
 
 }

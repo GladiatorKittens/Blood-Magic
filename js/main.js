@@ -8,7 +8,6 @@ var config = {
     physics: {
         default: "matter",
         matter: {
-            debug: false,
             gravity: {
                 x: 0,
                 y: 0
@@ -25,11 +24,7 @@ var config = {
             mapping: "matterCollision"
         }]
     },
-    scene: [StartScreen]    //TODO - change when using scene classes
-    //    preload: preload,
-    //    create: create,
-    //    update: update
-    //}
+    scene: [StartScreen, Level_1]    //TODO - add to
 
 }
 
