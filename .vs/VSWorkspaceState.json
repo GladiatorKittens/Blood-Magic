@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\assets",
+    "\\assets\\art",
     "\\js"
   ],
-  "SelectedNode": "\\index.html",
+  "SelectedNode": "\\js\\Altar.js",
   "PreviewInSolutionExplorer": false
 }

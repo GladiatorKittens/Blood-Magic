@@ -9,13 +9,15 @@ class LevelBaseClass extends Phaser.Scene {
     preload() {
         this.load.spritesheet("Altar", "assets/art/Altar/altar_spritesheet.png", { frameWidth: 23, frameHeight: 23, margin: 1 });
     }
-    create(scene, altar_x, altar_y, altar_health) {
+    create(scene, altar_x, altar_y, altar_health, x_array, y_array) {
         var collision_group = this.matter.world.nextCategory();
         var summon_menu_button = new Button(900, 20, "placeholder.png", this.summoning_menu, this);
         this.menu_background = this.matter.add.image(700, 20, "placeholder.png");
         this.menu_background.setActive(false);
         this.menu_background.setVisible(false);
-        var Altar = new Altar(scene, altar_x, altar_y, altar_health);
+        var altar = new Altar(scene, altar_x, altar_y, altar_health);
+        altar.sprite.setScale(2, 2);
+        create_path(x_array, y_array);
     }
     update() {
     }

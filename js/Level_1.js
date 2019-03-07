@@ -9,7 +9,7 @@ class Level_1 extends LevelBaseClass{
         //load in necessary assets
     }
     create() {
-        super.create(this, 200, 200, 200);
+        super.create(this, 200, 200, 200, [20,10], [10,20]);//fill in arrays with path
     }
     update() {
         super.update();
