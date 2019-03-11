@@ -8,11 +8,12 @@ class LevelBaseClass extends Phaser.Scene {
     }
     preload() {
         this.load.spritesheet("Altar", "assets/art/Altar/altar_spritesheet.png", { frameWidth: 23, frameHeight: 23, margin: 1 });
+        this.load.image('troop_button', 'assets/art/Buttons/troop_button.png');
     }
     create(scene, altar_x, altar_y, altar_health, x_array, y_array) {
         var collision_group = this.matter.world.nextCategory();
-        var summon_menu_button = new Button(900, 20, "placeholder.png", this.summoning_menu, this);
-        this.menu_background = this.matter.add.image(700, 20, "placeholder.png");
+        var summon_menu_button = new Button(900, 20, "troop_button", this.summoning_menu, this);
+        this.menu_background = this.matter.add.image(700, 20, "placeholder.png")
         this.menu_background.setActive(false);
         this.menu_background.setVisible(false);
         var altar = new Altar(scene, altar_x, altar_y, altar_health);
