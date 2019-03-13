@@ -1,6 +1,6 @@
 // JavaScript source code
 class MonsterBaseClass {
-    constructor(cooldown_length) {
+    constructor(cooldown_length, x, y) {
         this.health = health;
         this.attack_speed = attack_speed;
         this.level = 1;
@@ -8,6 +8,8 @@ class MonsterBaseClass {
         //this.on_cooldown = false;
         this.last_attack_time = 0;
         this.cooldown_length = cooldown_length;
+        this.x = x;
+        this.y = y;
     };
     update() {
 
