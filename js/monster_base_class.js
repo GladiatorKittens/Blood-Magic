@@ -1,7 +1,6 @@
 // JavaScript source code
 class MonsterBaseClass {
     constructor(cooldown_length, x, y, health, texture, scene) {
-        console.log(scene);
         this.health = health;
         this.level = 1;
         this.scene = scene;
@@ -11,7 +10,7 @@ class MonsterBaseClass {
         this.cooldown_length = cooldown_length;
         this.x = x;
         this.y = y;
-        //this.sprite = scene.matter.add.sprite(x, y, texture, 0);    
+        this.sprite = scene.matter.add.sprite(x, y, texture, 0);    
         //this.sprite.setScale(2, 2);
     };
     update() {

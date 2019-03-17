@@ -2,7 +2,7 @@
 var config = {
     type: Phaser.AUTO,
     width: 960, //TODO - double and then set scale
-    height: 540,
+    height: 544,
     pixelArt: true,
 
     physics: {
@@ -30,6 +30,8 @@ var config = {
 
 var game = new Phaser.Game(config);
 
+var blood = 150;    //starting amount of currency the player has to spend
+
 function upgrade_cost_calc(x) {
     //x is the level being upgraded to, y is cost
     //function is (x-10)(7/10y) = -1 * 8^2
@@ -55,12 +57,13 @@ function follow_path() {
 }
 function create_path(x, y) { //x and y are arrays of values
     var path = [];
+    console.log(x, y, path)
     for (var i = 0; i <= 1; i += x) {
         var px = Phaser.Math.Interpolation.CatmullRom(x, i);
         var py = Phaser.Math.Interpolation.CatmullRom(y, i);
     }
     path.push({ x: px, y: py });
 
-
+    console.log(path)
     return path;
 }

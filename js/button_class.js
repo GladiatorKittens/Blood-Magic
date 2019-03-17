@@ -13,10 +13,20 @@ class Button {
     }
 }
 
-class SpawnerButton extends Button {
-    constructor(x, y, image_path, on_click_function, scene, object) {
-        super(x, y, image_path, on_click_function, scene); //why don't you like this?????
+class SpawnerButton {
+    constructor(x, y, image_path, on_click_string, scene, object) {
+        this.x = x;
+        this.y = y;
+        this.image_path = image_path;
+        this.scene = scene;
         this.object = object;
-        this.on_click_function = on_click_function(this.object, this.scene);
+        this.image = this.scene.add.image(this.x, this.y, this.image_path);
+
+        this.on_click_function = on_click_string;
+        this.on_click_arguments = [this.object, this.scene];
+
+        this.image.on("pointerdown", window[this.on_click_function], this.scene);
+        this.image.setInteractive();
+        //console.log(window[this.on_click_function](this.on_click_arguments[0], this.on_click_arguments[1]));
     }
 }
