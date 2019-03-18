@@ -1,7 +1,7 @@
 // JavaScript source code
 class Level_1 extends LevelBaseClass{
     constructor() {
-        super("Level_1", 100, 20);
+        super("Level_1", 35, 20);
         //extra
     }
     preload() {
@@ -9,7 +9,7 @@ class Level_1 extends LevelBaseClass{
         //load in necessary assets
     }
     create() {
-        super.create(this, 200);
+        super.create(this, 100);
     }
     update() {
         super.update();

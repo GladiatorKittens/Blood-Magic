@@ -4,7 +4,6 @@ class MonsterBaseClass {
         this.level = 1;
         this.scene = scene;
         this.upgrade_cost = upgrade_cost_calc(this.level);//function
-        //this.on_cooldown = false;
         this.last_attack_time = 0;
         this.cooldown_length = cooldown_length;
         this.attack_damage = attack;

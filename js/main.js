@@ -51,19 +51,17 @@ function purchase_cost_calc(x) {
     y = Math.round(Math.sqrt(x) * 9);
     return y;
 }
-function follow_path() {
-
-}
 function create_path(x_array, y_array) { //x and y are arrays of values
     var path = [];
-    //console.log(game.width)
     var x = 1 / 960;
     for (var i = 0; i <= 1; i += x) {
         var px = Phaser.Math.Interpolation.CatmullRom(x_array, i);
         var py = Phaser.Math.Interpolation.CatmullRom(y_array, i);
         path.push({ x: px, y: py });
     }
+    console.log(path);
     return path;
+
 }
 function create_anims() {
     const anims = this.anims;
@@ -97,7 +95,7 @@ function create_anims() {
     anims.create({
         key: "tentacle_attack",
         frames: anims.generateFrameNumbers("tentacle", { start: 2, end: 6 }),
-        frameRate: 5,
+        frameRate: 10,
         yoyo: true
     });
     console.log(this.anims)

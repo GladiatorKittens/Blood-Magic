@@ -16,6 +16,7 @@ class LevelBaseClass extends Phaser.Scene {
         this.blood = blood;
         this.blood_text = "blood: " + this.blood;
         this.health_text = "health";
+        this.summon_text = "cost: ";
         this.enemies_array = [];
         this.enemies_spawned = 0;
     }
@@ -55,10 +56,16 @@ class LevelBaseClass extends Phaser.Scene {
         this.menu_background.setVisible(false);
         this.menu_background.setScale(3, 2);
 
+        this.graphics = new Phaser.GameObjects.Graphics(this, {
+            lineStyle: "0xffffff"
+        });
+
         this.confirm_button = new SpawnerButton(0, 0, "confirm_button", "summon_tentacle", this);
         this.confirm_button.image.setActive(false);
         this.confirm_button.image.setVisible(false);
 
+        this.summon_text = this.add.text(750, 400, "cost: ", { fontSize: "32px", fill: "#fff" });
+        this.summon_text.setVisible(false);
         this.blood_text = this.add.text(20, 20, "blood: ", { fontSize: "32px", fill: "#fff" });
         this.health_text = this.add.text(300, 20, "health: ", { fontSize: "32px", fill: "#fff" });
 
@@ -108,7 +115,7 @@ class LevelBaseClass extends Phaser.Scene {
     }  
     create_tilemap() {
         this.map = this.make.tilemap({ key: this.id });
-        this.tileset = this.map.addTilesetImage("tilesheet", "tilesheet", 32, 32, 0, 1); //this is not working right now
+        this.tileset = this.map.addTilesetImage("tilesheet", "tilesheet", 32, 32, 0, 1);
         this.map.createStaticLayer("bg", this.tileset, 0, 0);
     }
     load_path_values() {
@@ -162,7 +169,8 @@ class LevelBaseClass extends Phaser.Scene {
                     this.menu_tentacle.label = "Menu Tentacle";
                     this.menu_tentacle.setInteractive();
                     this.menu_tentacle.setSensor(true);
-
+                    this.summon_text.setText("cost: " + purchase_cost_calc(this.tentacles.length + 1));
+                    this.summon_text.setVisible(true);
                     this.input.setDraggable(this.menu_tentacle);
                     this.input.on("dragstart", function (pointer) {
                         this.menu_background.setActive(false);        
@@ -174,7 +182,6 @@ class LevelBaseClass extends Phaser.Scene {
                     });
                     this.input.on("dragend", function (pointer, object) {
                         //here is where the confirmation of placement goes
-                        //this.confirm_button = new SpawnerButton(object.x, object.y, "confirm_button", "summon_tentacle", this, pointer);
                         this.confirm_button.x = this.confirm_button.image.x = object.x;
                         this.confirm_button.y = this.confirm_button.image.y = object.y + 70;
                         this.confirm_button.object = object;
@@ -182,8 +189,6 @@ class LevelBaseClass extends Phaser.Scene {
                         this.confirm_button.image.setVisible(true);
                         this.confirm_button.image.setActive(true);
                     }, this);
-
-                    //need to delete the original menu sprite
                     break;
             }
 
@@ -191,8 +196,8 @@ class LevelBaseClass extends Phaser.Scene {
             this.summon_menu_open = false;
             this.menu_background.setActive(false);
             this.menu_background.setVisible(false);
-            this.menu_tentacle.destroy(); // this doesn't work as the tentacle has not been defined in this scope. But it needs removing here...
-            
+            this.summon_text.setVisible(false);
+            this.menu_tentacle.destroy();            
         }
     }
     collision_system(bodyA, bodyB) {
@@ -224,7 +229,7 @@ class LevelBaseClass extends Phaser.Scene {
     }
     spawn_enemies() {
         if (this.enemies_spawned <= this.max_enemies) {
-            var new_enemy = new EnemyBaseClass(this.x_array[0], this.y_array[0], 10, 15, this, "picture.png");
+            var new_enemy = new EnemyBaseClass(this.x_array[0], this.y_array[0], 15, 15, this, "picture.png");
             this.enemies_array.push(new_enemy);
             this.enemies_spawned++;
         }
@@ -232,7 +237,6 @@ class LevelBaseClass extends Phaser.Scene {
     }
 }
 function summon_tentacle(object, scene) {
-    //this.confirm_button.image.destroy();
     this.confirm_button.object = {};
     this.confirm_button.on_click_arguments = [object, this];
     this.confirm_button.image.setActive(false);
@@ -244,11 +248,14 @@ function summon_tentacle(object, scene) {
         this.blood -= summon_cost;
         var tentacle = new TentacleClass(3, object.x, object.y - 40, this); //needs to take in x and y of the menu sprite.
         tentacle.sprite.setScale(2, 2);
-        
+        console.log(Phaser.GameObjects.Graphics)
+        //tentacle.hit_box = this.graphics.strokeCircle(tentacle.x + 15, tentacle.y + 15, 32 * 2.5);
+
         tentacle.hit_box = this.matter.add.circle(tentacle.x + 10, tentacle.y + 10, 32 * 2.5);
         tentacle.hit_box.isSensor = true;
         this.tentacles.push(tentacle);
     }
+    this.summon_text.setVisible(false);
 }
 class pause_scene extends Phaser.Scene {
     constructor() {
