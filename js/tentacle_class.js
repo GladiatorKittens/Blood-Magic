@@ -11,7 +11,7 @@ class TentacleClass extends MonsterBaseClass {
         super.update();
         if (this.is_attacking == false) {
             this.sprite.anims.play("idle", true);
-        }
+        }//TODO - return to idle
     }
     attack(enemy) {
         var attack_possible = this.attack_cooldown_calc();

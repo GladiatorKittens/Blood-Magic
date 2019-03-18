@@ -96,7 +96,7 @@ function create_anims() {
     });
     anims.create({
         key: "tentacle_attack",
-        frames: anims.generateFrameNumbers("tentacle", { start: 2, end: 8 }),
+        frames: anims.generateFrameNumbers("tentacle", { start: 2, end: 6 }),
         frameRate: 5,
         yoyo: true
     });

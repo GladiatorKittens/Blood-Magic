@@ -36,6 +36,7 @@ class EnemyBaseClass {
             }
         }
         this.scene.enemies_array.splice(temp, 1);
+        this.scene.blood += 2;
         this.sprite.destroy();
     }
     attack(altar) {

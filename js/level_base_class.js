@@ -1,4 +1,6 @@
 // JavaScript source code
+//TODO - set debug draw for the circles and nothing else
+//check for other todos
 class LevelBaseClass extends Phaser.Scene {
     constructor(id, blood, max_enemies) {
         super(id);
