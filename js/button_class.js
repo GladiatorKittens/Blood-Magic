@@ -14,12 +14,12 @@ class Button {
 }
 
 class SpawnerButton {
-    constructor(x, y, image_path, on_click_string, scene, object) {
+    constructor(x, y, image_path, on_click_string, scene) {
         this.x = x;
         this.y = y;
         this.image_path = image_path;
         this.scene = scene;
-        this.object = object;
+        this.object = {};
         this.image = this.scene.add.image(this.x, this.y, this.image_path);
 
         this.on_click_function = on_click_string;

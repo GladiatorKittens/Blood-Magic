@@ -1,13 +1,13 @@
 // JavaScript source code
 class MonsterBaseClass {
-    constructor(cooldown_length, x, y, health, texture, scene) {
-        this.health = health;
+    constructor(cooldown_length, attack, x, y, texture, scene) {
         this.level = 1;
         this.scene = scene;
         this.upgrade_cost = upgrade_cost_calc(this.level);//function
         //this.on_cooldown = false;
         this.last_attack_time = 0;
         this.cooldown_length = cooldown_length;
+        this.attack_damage = attack;
         this.x = x;
         this.y = y;
         this.sprite = scene.matter.add.sprite(x, y, texture, 0);    
@@ -19,13 +19,14 @@ class MonsterBaseClass {
     attack_cooldown_calc() {
         var time = new Date();
         time = time.getTime();
-
         //check if the attack is on cooldown
         var time_diff = time - this.last_attack_time;
         if (time_diff > this.cooldown_length) {
-            console.log("attack possible")
             this.last_attack_time = time;
+            return true;
             //attack goes in here
+        } else {
+            return false;
         }
     }
 }

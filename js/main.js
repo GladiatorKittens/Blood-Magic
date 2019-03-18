@@ -4,7 +4,7 @@ var config = {
     width: 960, //TODO - double and then set scale
     height: 544,
     pixelArt: true,
-
+    backgroundColor: "#3C0344",
     physics: {
         default: "matter",
         matter: {
@@ -24,12 +24,11 @@ var config = {
             mapping: "matterCollision"
         }]
     },
-    scene: [StartScreen, Level_1]    //TODO - add to
+    scene: [StartScreen, Level_1, pause_scene]    //TODO - add to
 
 }
 
 var game = new Phaser.Game(config);
-
 var blood = 150;    //starting amount of currency the player has to spend
 
 function upgrade_cost_calc(x) {
@@ -55,15 +54,51 @@ function purchase_cost_calc(x) {
 function follow_path() {
 
 }
-function create_path(x, y) { //x and y are arrays of values
+function create_path(x_array, y_array) { //x and y are arrays of values
     var path = [];
-    console.log(x, y, path)
+    //console.log(game.width)
+    var x = 1 / 960;
     for (var i = 0; i <= 1; i += x) {
-        var px = Phaser.Math.Interpolation.CatmullRom(x, i);
-        var py = Phaser.Math.Interpolation.CatmullRom(y, i);
+        var px = Phaser.Math.Interpolation.CatmullRom(x_array, i);
+        var py = Phaser.Math.Interpolation.CatmullRom(y_array, i);
+        path.push({ x: px, y: py });
     }
-    path.push({ x: px, y: py });
-
-    console.log(path)
     return path;
+}
+function create_anims() {
+    const anims = this.anims;
+    anims.create({
+        key: "idle",
+        frames: anims.generateFrameNumbers("tentacle", { start: 0, end: 2 }),
+        frameRate: 2,
+        yoyo: true,
+        repeat: -1
+    });
+    anims.create({
+        key: "full",
+        frames: anims.generateFrameNumbers("Altar", { frames: [0] })
+    });
+    anims.create({
+        key: "nearly_full",
+        frames: anims.generateFrameNumbers("Altar", { frames: [1] })
+    });
+    anims.create({
+        key: "half_full",
+        frames: anims.generateFrameNumbers("Altar", { frames: [2] })
+    });
+    anims.create({
+        key: "nearly_empty",
+        frames: anims.generateFrameNumbers("Altar", { frames: [3] })
+    });
+    anims.create({
+        key: "empty",
+        frames: anims.generateFrameNumbers("Altar", { frames: [4] })
+    });
+    anims.create({
+        key: "tentacle_attack",
+        frames: anims.generateFrameNumbers("tentacle", { start: 2, end: 8 }),
+        frameRate: 5,
+        yoyo: true
+    });
+    console.log(this.anims)
 }

@@ -1,19 +1,31 @@
 // JavaScript source code
 class TentacleClass extends MonsterBaseClass {
     constructor(cooldown_length, x, y, scene) {
-        super(cooldown_length, x, y, 100, "tentacle", scene);
+        super(cooldown_length, 5, x, y, "tentacle", scene);
         this.range = 3; //can attack enemies up to three tiles away
-        const anims = scene.anims;
-        anims.create({
-            key: "idle",
-            frames: anims.generateFrameNumbers("tentacle", { start: 0, end: 2 }),
-            frameRate: 2,
-            yoyo: true,
-            repeat: -1
-        });
+        this.sprite.isStatic(true);
+        this.sprite.isSensor(true);
+        this.is_attacking = false;
     }
     update() {
         super.update();
-        this.sprite.anims.play("idle", true);
+        if (this.is_attacking == false) {
+            this.sprite.anims.play("idle", true);
+        }
+    }
+    attack(enemy) {
+        var attack_possible = this.attack_cooldown_calc();
+        if (attack_possible) {
+            this.is_attacking = true;
+            enemy.take_damage(this.attack_damage);
+            this.sprite.anims.play("tentacle_attack", false);
+            this.reset = this.scene.time.addEvent({
+                delay: 1500,
+                callback: this.reset_timer,
+            });
+        }       
+    }
+    reset_timer() {
+        this.is_attacking = false;
     }
 }
