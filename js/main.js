@@ -24,6 +24,9 @@ var config = {
             mapping: "matterCollision"
         }]
     },
+    //scale: {
+    //    mode: Phaser.Scale.ScaleModes.RESIZE,
+    //},
     scene: [StartScreen, Level_1, pause_scene]    //TODO - add to
 
 }
