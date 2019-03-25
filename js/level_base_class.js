@@ -13,7 +13,7 @@ class LevelBaseClass extends Phaser.Scene {
         this.y_array = [];
         this.tentacles = [];
         this.altar_x = this.altar_y = 0;
-        this.blood = blood;
+        this.blood = /*blood*/4000000;
         this.blood_text = "blood: " + this.blood;
         this.health_text = "health";
         this.summon_text = "cost: ";
@@ -32,13 +32,15 @@ class LevelBaseClass extends Phaser.Scene {
         this.load.image('troop_button', 'assets/art/Buttons/troop_button.png');
         this.load.image("troop_background", "assets/art/UI/troop_menu_background.png");
     }
-    create(scene, altar_health) {
+    create(altar_health) {
         //do not spawn anything before the tilemap due to layering (too lazy to set depth)
         this.create_tilemap();
         this.load_path_values();
         this.enemy_path = create_path(this.x_array, this.y_array);
 
-        this.altar = new Altar(scene, this.altar_x, this.altar_y, altar_health);
+        this.enemies_array = this.add.group();
+
+        this.altar = new Altar(this, this.altar_x, this.altar_y, altar_health);
         this.altar.sprite.setScale(2, 2);
         this.altar.sprite.setStatic(true);
         this.altar.sprite.body.isStatic = true;
@@ -70,7 +72,7 @@ class LevelBaseClass extends Phaser.Scene {
         this.health_text = this.add.text(300, 20, "health: ", { fontSize: "32px", fill: "#fff" });
 
         if (this.id == "Level_1") {create_anims.call(this);}
-        this.matter.world.on("collisionstart", function (event, bodyA, bodyB) {
+        /*this.matter.world.on("collisionstart", function (event, bodyA, bodyB) {
             var tentacle = {};
             var enemy = {};
             for (var i = 0; i < this.tentacles.length; i++) {
@@ -90,7 +92,7 @@ class LevelBaseClass extends Phaser.Scene {
                     }
                 }
             };
-            for (var i = 0; i < this.enemies_array.length; i++) {
+            /*for (var i = 0; i < this.enemies_array.length; i++) {
                 if (bodyA.id === this.enemies_array[i].sprite.body.id) {
                     if (enemy instanceof EnemyBaseClass) {                       
                         break;
@@ -106,12 +108,32 @@ class LevelBaseClass extends Phaser.Scene {
                         break;
                     }
                 }
-            };
+            };*//*
+            this.enemies_array.getChildren().forEach(function (child) {
+                if (child.active) {
+                    if (bodyA.id === child.body.id) {
+                        if (enemy instanceof EnemyBaseClass) {
+                            break;
+                        } else {
+                            enemy = child;
+                            break;
+                        }
+                    } else if (bodyB.id === child.body.id) {
+                        if (enemy instanceof EnemyBaseClass) {
+                            break;
+                        } else {
+                            enemy = child;
+                            break;
+                        }
+                    }
+                }
+            });
+
             if ((tentacle instanceof TentacleClass) && (enemy instanceof EnemyBaseClass)) {
                 tentacle.attack(enemy);
             }
 
-        }, this);
+        }, this);*/
     }  
     create_tilemap() {
         this.map = this.make.tilemap({ key: this.id });
@@ -145,13 +167,25 @@ class LevelBaseClass extends Phaser.Scene {
                 repeat: this.max_enemies - 1
             });
             var new_enemy = new EnemyBaseClass(this.x_array[0], this.y_array[0], 10, 15, this, "picture.png");
-            this.enemies_array.push(new_enemy);
+            this.enemies_array.add(new_enemy);
+            //this.enemies_array.push(new_enemy);
             this.enemies_spawned++;
             this.game_started = false; //prevents this if statement from running more than once
         }
         this.altar.update();
         for (var i = 0; i < this.tentacles.length; i++) { this.tentacles[i].update(); }
-        for (var i = 0; i < this.enemies_array.length; i++) { this.enemies_array[i].update(this.enemy_path, this.altar); };
+        /*for (var i = 0; i < this.enemies_array.length; i++) {
+            console.log(this.enemies_array.length )
+            console.log(i)
+            console.log(this.enemies_array[i]);
+            this.enemies_array[i].update(this.enemy_path, this.altar);
+        };*/
+        this.enemies_array.getChildren().forEach(function (child) {
+            if (child.active) {
+                console.log(this);
+                child.update(this.enemy_path, this.altar);
+            }
+        }, this);
     }
     summoning_menu() {
         var page_num = 0;
@@ -228,11 +262,11 @@ class LevelBaseClass extends Phaser.Scene {
         tentacle.attack(enemy);
     }
     spawn_enemies() {
-        if (this.enemies_spawned <= this.max_enemies) {
+        /*if (this.enemies_spawned <= this.max_enemies) {
             var new_enemy = new EnemyBaseClass(this.x_array[0], this.y_array[0], 15, 15, this, "picture.png");
-            this.enemies_array.push(new_enemy);
+            this.enemies_array.add(new_enemy);
             this.enemies_spawned++;
-        }
+        }*/
         
     }
 }
